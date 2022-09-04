@@ -1,0 +1,25 @@
+you give it a max 20 char prompt and it will give you a 500 char long message
+then you can say which AI did it the best, that AI will copy with mutation and
+you give it a new prompt and then repeat until the AI gives legible stories
+
+
+the network will be 7 layers:
+32-32-32-64-128-256-512
+which is 1056 neurons
+with per layer then connection amount of:
+1024-1024-2048-8192-32768-131072
+total: 176128
+total amount of values needed: 177184
+
+every 5 char it can encounter a new number in the weights
+
+
+the ACII output is normalized with being from 1 to 96
+and + 31
+
+first layer needs to normalize the input characters and multiply this with
+the weights of each neuron to then be filtered trough the sigmoid function
+
+to get the current value, add the
+-48
+113==
