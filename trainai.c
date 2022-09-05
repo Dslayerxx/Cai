@@ -310,7 +310,6 @@ void autotrain(){
   char input[33];
   char check[512];
   int best[6]={0,0,0,0,0,0};
-  int high;
   fp=fopen("Autotrain.txt","r");
   int zxy=0;
   while(1){
@@ -323,6 +322,7 @@ void autotrain(){
     fseek(fp,(zxy*544)+32,SEEK_SET);
     fscanf(fp,"%s512", &check);
     for(int aii=0;aii<100;aii++){
+      int high=0;
       for(int rept=0;rept<floor(log10(aii))+1;rept++){//dynamic progress printing
         printf("\b");
       }
@@ -335,13 +335,13 @@ void autotrain(){
           }
         }
         if(best[m]<best[m+1]){
-          high = m+1;
+          high = m;
         }
       }
       mutweight(high);
     }
     zxy++;
-    if(zxy>unknown){
+    if(zxy>1){
       zxy=0;
     }
   }
