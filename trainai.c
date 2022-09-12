@@ -253,14 +253,9 @@ void printstory(){
 float mutcha(float x){
   int gh = (int)(rand()/100)%100;
   switch(gh){
-    case 0 ... 12: x=x*0.75f; break;
-    case 13 ... 24: x=x*1.25f; break;
-    case 25 ... 30: x=x*2; break;
-    case 31 ... 35: x=x*0.5f; break;
-    case 36 ... 37: x=5; break;
-    case 38 ... 39: x=0; break;
-    case 40 ... 41: x=9.999f; break;
-    case 42 ... 50: x=fmodf((float)rand()/1000,10); break;
+    case 0 ... 5: x=x*0.9f; break;
+    case 6 ... 11: x=x*1.1f; break;
+    case 12 ... 15: x=fmodf((float)rand()/1000,10); break;
     default: break;
   }
   if(x>9.9999f){
@@ -309,19 +304,22 @@ void mutweight(int num){ //mutates the weights
 void autotrain(){
   char input[33];
   char check[512];
-  int best[6]={0,0,0,0,0,0};
+  
   fp=fopen("Autotrain.txt","r");
   int zxy=0;
   while(1){
     printf("\nBusy with training on text%d, progress-",zxy);
     fseek(fp,zxy*544,SEEK_SET);
-    fscanf(fp,"%s32", &input);
+    //fscanf(fp,"%32s", &input);
+    fgets(input,32,fp);
     for(int i = 0;i<32;i++){ // converts input to a more legible value
       storage[i] = convertinput(input[i]);
     }
     fseek(fp,(zxy*544)+32,SEEK_SET);
-    fscanf(fp,"%s512", &check);
+    //fscanf(fp,"%s512", &check);
+    fgets(check,512,fp);
     for(int aii=0;aii<100;aii++){
+      int best[6]={0,0,0,0,0,0};
       int high=0;
       for(int rept=0;rept<floor(log10(aii))+1;rept++){//dynamic progress printing
         printf("\b");
@@ -334,15 +332,25 @@ void autotrain(){
             best[m]++;
           }
         }
-        if(best[m]<best[m+1]){
-          high = m;
+      }
+      int save[2] = {0,0};
+      for(int m = 0;m<5;m++){
+        if(best[m]>save[0]){
+          save[0]=best[m];
+          save[1]=m;
+          high = save[1];
         }
       }
-      mutweight(high);
+      if(aii == 99){
+        printf("\n%d \n",save[0]);
+      }
+      mutweight(high+1);
     }
     zxy++;
-    if(zxy>1){
+    if(zxy>0){//zxy>number of stories - 1
       zxy=0;
+      saveweights();
+      printstory();
     }
   }
 }
