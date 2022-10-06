@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char yx[] ="ksvvwbgsjdsvsisvxbmnyquukbnwcuanmjs";
+char yx[] ="jr penpxrq vg hfvat na bayvar gbby sbe penpxvat ene svyrf";
 void main()
 {
 for (int y=0; y<26; y++){
